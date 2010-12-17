@@ -10,15 +10,15 @@
  */
 
 /*
- * First add article named "$wgArticle_count" to your wiki ($wgWikiRoot) with this content:
+ * First add article named "($wgArticle_count)" to your wiki ($wgWikiRoot) with this content:
  *
  * {{NUMBEROFARTICLES}}
  *
  * ...and you're good to go!
  */
 
-$wgWikiRoot = "http://hitchwiki.org/";
-$wgArticle_count = "Article_count";
+$wgacWikiRoot = "http://hitchwiki.org/";
+$wgacArticle_count = "Article_count";
 
 if( defined( 'MEDIAWIKI' )) {
 
@@ -41,13 +41,13 @@ if( defined( 'MEDIAWIKI' )) {
 	
 	// parse <article_count> Tags
 	function include_article_count($input, $argv, &$parser) {
-	    global $wgWikiRoot, $wgArticle_count;
+	    global $wgacWikiRoot, $wgacArticle_count;
 	
-	    $parser->disableCache();
+	    //$parser->disableCache();
 	
 	    $lang = isset($argv['lang']) ? urlencode($argv['lang']) : '';
 	    
-	    $url = $wikiRoot.$lang.'/'.$wgArticle_count.'&action=render&ctype=text/plain';
+	    $url = $wgacWikiRoot.$lang.'/'.$wgacArticle_count.'&action=render&ctype=text/plain';
 	    
 	    // Prefer cURL here...
 		if (function_exists('curl_init')) {
@@ -63,8 +63,8 @@ if( defined( 'MEDIAWIKI' )) {
 		}
 			
 		if(strstr($output, 'There is currently no text in this page.')) return '';
-		else return strip_tags($output);
-	
+		else return '<!-- ENCODED_CONTENT '.base64_encode(strip_tags($output)).' -->';
+		
 	}
 
 } else {
