@@ -9,13 +9,24 @@
  * @licence GNU General Public Licence 2.0
  */
 
+/*
+ * First add article named "$wgArticle_count" to your wiki ($wgWikiRoot) with this content:
+ *
+ * {{NUMBEROFARTICLES}}
+ *
+ * ...and you're good to go!
+ */
+
+$wgWikiRoot = "http://hitchwiki.org/";
+$wgArticle_count = "Article_count";
+
 if( defined( 'MEDIAWIKI' )) {
 
 	$wgExtensionCredits['parserhook'][] = array(
 		'path'           => __FILE__,
 		'name'           => 'Article Count',
-		'author'         => 'Mikael Korpela',
-		'url'            => 'http://www.ihminen.org',
+		'author'         => '[http://www.ihminen.org Mikael Korpela]',
+		'url'            => 'https://github.com/Hitchwiki/Misc/blob/master/MediaWiki_extensions/article_count.php',
 		'description'    => '<tt>&lt;article_count lang="LANGUAGE" /&gt;</tt>'
 	);
 
@@ -30,15 +41,13 @@ if( defined( 'MEDIAWIKI' )) {
 	
 	// parse <article_count> Tags
 	function include_article_count($input, $argv, &$parser) {
-	    global $wgOsmCachePath;
-	    global $wgOsmCacheUrl;
-	    global $wgOsmUrl;
+	    global $wgWikiRoot, $wgArticle_count;
 	
 	    $parser->disableCache();
 	
-	    $lang = isset($argv['lang']) ? urlencode($argv['lang']) : 'en';
+	    $lang = isset($argv['lang']) ? urlencode($argv['lang']) : '';
 	    
-	    $url = 'http://hitchwiki.org/'.$lang.'/Article_count&action=render&ctype=text/plain';
+	    $url = $wikiRoot.$lang.'/'.$wgArticle_count.'&action=render&ctype=text/plain';
 	    
 	    // Prefer cURL here...
 		if (function_exists('curl_init')) {
