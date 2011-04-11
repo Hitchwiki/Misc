@@ -18,7 +18,7 @@
  */
 
 $wgacWikiRoot = "http://hitchwiki.org/";
-$wgacArticle_count = "Article_count";
+$wgacArticle_count = "Hitchwiki:Article_count";
 
 if( defined( 'MEDIAWIKI' )) {
 
@@ -35,7 +35,7 @@ if( defined( 'MEDIAWIKI' )) {
 	// Add hooks
 	function get_article_count() {
 	    global $wgParser, $wgHooks;
-	    $wgParser->disableCache();
+	    //$wgParser->disableCache();
 	    $wgParser->setHook('article_count', "include_article_count");
 	}
 	
@@ -63,7 +63,7 @@ if( defined( 'MEDIAWIKI' )) {
 		}
 			
 		if(strstr($output, 'There is currently no text in this page.')) return '';
-		else return '<!-- ENCODED_CONTENT '.base64_encode(strip_tags($output)).' -->';
+		else return '<!-- ENCODED_CONTENT '.base64_encode(trim(strip_tags($output))).' -->';
 		
 	}
 
